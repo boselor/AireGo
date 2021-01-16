@@ -22,9 +22,37 @@
             <textarea name="description" class="form-control" id="desc" style="width:100%; min-height:5rem;" placeholder="Input the description"></textarea>
         </div>
         <div class="form-group text-right" style="margin-top:20px">
-            <button type="submit" class="btn btn-primary">提交</button>
+            <button type="button" onclick="submit()" class="btn btn-primary">提交</button>
         </div>
     </div>
 </div>
 
-@section Scripts{ } 
+@section Scripts{
+    <script type="text/javascript">
+        function submit() {
+            var title = $("#title").val();
+            var tag = $("#tag").val();
+            var url = $("#url").val();
+            var desc = $("#desc").val();
+
+            $.ajax({
+                url: '/Account/Urls/Push',
+                method: 'POST',
+                data: { title: title, tag: tag, url: url, desc: desc, action: 'add' },
+                success: function (data) {
+                    if (data.code == 200) {
+                        console.log(data);
+                        console.log(data.message);
+                        window.location.href = '/Account/Urls/Index'
+                    } else {
+                        console.log(data);
+                        console.log(data.message);
+                    }
+                },
+                error: function (x, r, d) {
+                    console.log(x, r, d);
+                }
+            });
+        }
+    </script>
+} 
