@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "添加链接";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">添加链接</div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label>标题</label>
+            <input type="text" class="form-control" id="title" placeholder="Enter title">
+        </div>
+        <div class="form-group">
+            <label>短域</label>
+            <input type="text" class="form-control" id="tag" placeholder="Enter tag">
+        </div>
+        <div class="form-group">
+            <label>URL</label>
+            <input type="text" class="form-control" id="url" placeholder="Enter url">
+        </div>
+        <label>描述</label>
+        <div>
+            <textarea name="description" class="form-control" id="desc" style="width:100%; min-height:5rem;" placeholder="Input the description"></textarea>
+        </div>
+        <div class="form-group text-right" style="margin-top:20px">
+            <button type="submit" class="btn btn-primary">提交</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts{ } 

@@ -1,3 +1,4 @@
+using FreeSql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,9 +14,14 @@ namespace AireGo
 {
     public class Startup
     {
+        private IFreeSql _sql;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            _sql = new FreeSqlBuilder()
+                .UseAutoSyncStructure(true)
+                .UseConnectionString(DataType.Sqlite, connectionString:"Data Source = airego.db")
+                .Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -23,6 +29,7 @@ namespace AireGo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(_sql);
             services.AddControllersWithViews();
         }
 

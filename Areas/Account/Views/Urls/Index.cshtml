@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "管理连接";
+}
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <td>编号</td>
+            <td>缩写</td>
+            <td>时间</td>
+            <td>管理</td>
+        </tr>
+    </thead>
+    <tbody id="list">
+    </tbody>
+</table>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.onload = function () {
+            load(1);
+        }
+        function load(page) {
+            $.ajax({
+                method: 'get',
+                url: '/Account/Urls/Get',
+                data: { page: page, size: 10 },
+                success: function (data) {
+                    if (data.code == 200) {
+                        var urls = data.data;
+                        var html = "";
+                        for (var i = 0; i < urls.length; i++) {
+                            html += `<tr><td>${urls[i].id}</td><td>${urls[i].tag}</td><td>${urls[i].time}</td><td><a href='/Account/Urls/Delete/${urls[i].id}' style='color:red;font-weight:bolder'>删除</a>&nbsp;|&nbsp;<a href='/Account/Urls/Edit/${urls[i].id}'>编辑</a>&nbsp;|&nbsp;<a href='/Account/Urls/Details/${urls[i].id}'>详情</a></td></tr>`;
+                        }
+                        $("#list").html(html);
+                    } else
+                        console.log(data);
+                },
+                error: function (x, r, d) {
+                    console.log(x, r, d);
+                }
+            });
+        }
+    </script>
+} 
