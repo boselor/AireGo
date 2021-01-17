@@ -39,12 +39,14 @@
                 <button type="button" class="btn btn-block btn-primary" onclick="submit()">登录</button>&nbsp; <div style="float:left; width:100%;color:#f00; font-weight:bolder;" id="msg"></div>
             </div>
         </div>
+        <input type="hidden" value='@ViewData["returnurl"].ToString()' id="rturl" />
         <script src="//oss.boselor.com/res/tpl/clearmin/assets/js/lib/jquery.min.js"></script>
         <script src="//oss.boselor.com/res/tpl/clearmin/assets/js/jquery.cookie.min.js"></script>
         <script type="text/javascript">
             function submit() {
                 var name = $("#name").val();
                 var passwd = $("#passwd").val();
+                var rturl = $("#rturl").val();
 
                 $.ajax({
                     url: '/Identity/Push',
@@ -52,7 +54,10 @@
                     success: function (res) {
                         if (res.code == 200) {
                             $("#msg").text(res.message);
-                            window.location.href = "/Account/Urls/Index";
+                            if (rturl.length > 0)
+                                window.location.href = rturl;
+                            else
+                                window.location.href = "/Account/Urls/Index";
                         } else {
                             console.log(res);
                             $("#msg").text(res.message);

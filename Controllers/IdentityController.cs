@@ -12,8 +12,12 @@ namespace AireGo.Controllers
 {
     public class IdentityController : Controller
     {
-        public IActionResult Index() => View();
-        public IActionResult Login() => Index();
+        public IActionResult Index(string returnUrl)
+        {
+            ViewData["returnurl"] = returnUrl;
+            return View();
+        }
+        public IActionResult Login(string returnUrl) => Index(returnUrl);
         private IFreeSql _sql;
         public IdentityController(IFreeSql sql) => _sql = sql;
         public async Task<RespMap> Push(string name, string passwd)
