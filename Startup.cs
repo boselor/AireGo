@@ -1,4 +1,5 @@
 using FreeSql;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +31,23 @@ namespace AireGo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(_sql);
+            services.AddAuthentication(authoption =>
+            {
+                authoption.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                authoption.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                authoption.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                authoption.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+           .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, option =>
+           {
+               option.Cookie.Name = "AireGo.Identity";
+               option.Cookie.HttpOnly = true;
+               option.ExpireTimeSpan = TimeSpan.FromDays(3);
+               option.SlidingExpiration = true;
+               option.LoginPath = "/Identity/Index";
+               option.LogoutPath = "/Identity/LoginOut";
+               option.AccessDeniedPath = "/Identity/Error";
+           });
             services.AddControllersWithViews();
         }
 
