@@ -21,7 +21,7 @@ namespace AireGo
             Configuration = configuration;
             _sql = new FreeSqlBuilder()
                 .UseAutoSyncStructure(true)
-                .UseConnectionString(DataType.Sqlite, connectionString:"Data Source = airego.db")
+                .UseConnectionString(DataType.Sqlite, connectionString: Configuration["App:ConnectStrings:SQLite"])
                 .Build();
         }
 
