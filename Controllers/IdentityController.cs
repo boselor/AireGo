@@ -1,4 +1,5 @@
-﻿using AireGo.Models;
+﻿using AireGo.Common;
+using AireGo.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace AireGo.Controllers
 
             try
             {
-                var usr = await _sql.Select<UserMap>().Where(e => e.Name.Equals(name.Trim()) && e.Passwd.Equals(passwd.Trim())).FirstAsync();
+                var usr = await _sql.Select<UserMap>().Where(e => e.Name.Equals(name.Trim()) && e.Passwd.Equals(AlogrithmCommon.ToMd5(passwd.Trim()))).FirstAsync();
                 if(usr == null)
                 {
                     resp.Code = 404;
