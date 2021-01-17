@@ -20,7 +20,20 @@ namespace AireGo
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    if (args.Length > 0)
+                    {
+                        if (args[0] != null && args[0].Length > 0)
+                        {
+                            Console.WriteLine("Use port {0}", args[0]);
+                            webBuilder
+                            .UseUrls($"http://*:{args[0]}")
+                            .UseStartup<Startup>();
+                        }
+                    }
+                    else
+                    {
+                        webBuilder.UseStartup<Startup>();
+                    }
                 });
     }
 }
